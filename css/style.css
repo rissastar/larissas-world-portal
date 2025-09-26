@@ -103,3 +103,13 @@ button.nav {
   from { text-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff; }
   to { text-shadow: 0 0 40px #ff00ff, 0 0 80px #00ffff; }
 }
+
+@keyframes warpZoom {
+  0% { transform: scale(1) rotate(0deg); opacity: 1; }
+  100% { transform: scale(20) rotate(720deg); opacity: 0; }
+}
+
+.portal-zoom {
+  animation: warpZoom 2s ease forwards;
+  z-index: 10;
+}
