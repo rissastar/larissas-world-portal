@@ -8,26 +8,33 @@
 </head>
 <body>
 
+<!-- Portal Entrance Scene -->
 <div id="portalScene">
-  <canvas id="starCanvas"></canvas>
-  <div id="portalGlow"></div>
-  <div id="ripple"></div>
   <h1 id="portalText">✨ Travel Through the Portal ✨</h1>
   <p id="portalSubtext">to enter <span>Larissa’s Void</span></p>
   <button id="enterButton" onclick="enterPortal()">ENTER</button>
 </div>
 
-<div id="voidContent" class="hidden">
-  <header>
-    <h1>🌌 Welcome to Larissa’s Void</h1>
-  </header>
-  <nav>
-    <button onclick="openPage('about')">About</button>
-    <button onclick="openPage('gallery')">Gallery</button>
-    <button onclick="openPage('games')">Games</button>
-    <button onclick="openPage('secret')">Secret Room</button>
-  </nav>
-  <main id="pageContent"></main>
+<!-- Map Scene -->
+<div id="mapScene" class="hidden">
+  <canvas id="mapCanvas"></canvas>
+  <h1 style="color:white;">Welcome to Larissa’s Void</h1>
+</div>
+
+<!-- Rooms -->
+<div id="memoryIsland" class="hidden room">
+  <h2>Memory Island</h2>
+  <p>Your life story, photos, art, and memories here.</p>
+</div>
+
+<div id="dreamForest" class="hidden room">
+  <h2>Dream Forest</h2>
+  <p>Poetry, hidden thoughts, surreal interactive magic.</p>
+</div>
+
+<div id="cosmicStage" class="hidden room">
+  <h2>The Cosmic Stage</h2>
+  <p>Your art, music, and creations shine here.</p>
 </div>
 
 <script src="js/script.js"></script>
