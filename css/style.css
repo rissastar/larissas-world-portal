@@ -4,12 +4,14 @@ body, html {
   height: 100%;
   overflow: hidden;
   font-family: 'Poppins', sans-serif;
-  background: black;
+  background: radial-gradient(circle at center, #0a0a0a, #000);
   color: white;
 }
 
 .hidden { display: none; }
-.room { padding: 20px; }
+.room { padding: 20px; display: none; }
+
+.room.active { display: block; }
 
 #portalScene {
   display: flex;
@@ -17,6 +19,13 @@ body, html {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background: radial-gradient(circle at center, #1a0a3a, #000);
+  animation: pulseBG 8s infinite alternate;
+}
+
+@keyframes pulseBG {
+  0% { background: radial-gradient(circle at center, #1a0a3a, #000); }
+  100% { background: radial-gradient(circle at center, #2a1a5a, #000); }
 }
 
 #enterButton {
@@ -27,13 +36,19 @@ body, html {
   color: white;
   cursor: pointer;
   border-radius: 15px;
+  transition: all 0.3s ease;
+}
+
+#enterButton:hover {
+  background: rgba(255,255,255,0.4);
+  transform: scale(1.05);
 }
 
 #mapScene {
   position: relative;
   width: 100%;
   height: 100vh;
-  text-align: center;
+  overflow: hidden;
 }
 
 canvas {
