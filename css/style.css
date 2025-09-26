@@ -16,16 +16,6 @@ body, html {
   text-align: center;
 }
 
-h1 {
-  font-size: 2em;
-  animation: glow 2s ease-in-out infinite alternate;
-}
-
-@keyframes glow {
-  from { text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff; }
-  to { text-shadow: 0 0 20px #ff00ff, 0 0 30px #ff00ff; }
-}
-
 .portal-button {
   margin: 15px;
   padding: 15px 30px;
@@ -36,17 +26,11 @@ h1 {
   color: white;
   border: none;
   transition: all 0.3s ease;
-  animation: pulseButton 2s infinite alternate;
 }
 
 .portal-button:hover {
   transform: scale(1.1);
   background: radial-gradient(circle, rgba(255,0,255,0.9), rgba(0,0,0,0.9));
-}
-
-@keyframes pulseButton {
-  from { box-shadow: 0 0 20px rgba(255,0,255,0.7); }
-  to { box-shadow: 0 0 40px rgba(255,0,255,1); }
 }
 
 #portalCanvas {
