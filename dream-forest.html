@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dream Forest - Larissa’s Void</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<canvas id="forestCanvas"></canvas>
+
+<div id="forestScene">
+  <h1>🌲 Dream Forest</h1>
+  <p>Step into a dreamy world of wonders, where your imagination takes flight.</p>
+  <div class="forest-section" onclick="showForestContent('dreams')">💭 Dreams</div>
+  <div class="forest-section" onclick="showForestContent('art')">🎨 My Art</div>
+  <div class="forest-section" onclick="showForestContent('secrets')">🔮 Secrets</div>
+
+  <div id="forestContent"></div>
+  <button onclick="goBack()">🔙 Back to Portal</button>
+</div>
+
+<script src="js/room.js"></script>
+<script>
+function showForestContent(type) {
+  const content = document.getElementById("forestContent");
+
+  if (type === "dreams") {
+    content.innerHTML = "<h3>Dreams</h3><p>A collection of my visions, thoughts, and ethereal moments.</p>";
+  }
+
+  if (type === "art") {
+    content.innerHTML = "<h3>My Art</h3><p>Paintings, sketches, and creations from my heart.</p>";
+  }
+
+  if (type === "secrets") {
+    content.innerHTML = "<h3>Secrets</h3><p>Hidden messages, little mysteries, and dreamlike thoughts.</p>";
+  }
+}
+
+function goBack() {
+  window.location.href = "index.html";
+}
+</script>
+</body>
+</html>
