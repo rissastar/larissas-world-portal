@@ -3,6 +3,8 @@
 Welcome to **Larissa’s World** — a one-of-a-kind interactive personal portal.  
 This is not just a gallery, not just a fan page, but *your own private universe* to explore.  
 
+https://rissastar.github.io/larissas-world-portal/
+
 Here, every click is a doorway, every image is a story, and every realm is a mood.  
 It’s designed to be magical, immersive, and completely unique to you.  
 
