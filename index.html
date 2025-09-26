@@ -7,13 +7,17 @@
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+<canvas id="portalCanvas"></canvas>
+
 <div id="portalScene">
-  <h1>✨ Travel Through the Portal ✨</h1>
-  <p>to enter <span>Larissa’s Void</span></p>
-  <button id="enterMemory" onclick="enterRoom('memory-island.html')">Enter Memory Island</button>
-  <button id="enterDream" onclick="enterRoom('dream-forest.html')">Enter Dream Forest</button>
-  <button id="enterStage" onclick="enterRoom('cosmic-stage.html')">Enter Cosmic Stage</button>
+  <h1 id="portalTitle">✨ Travel Through the Portal ✨</h1>
+  <p id="portalSubtitle">to enter <span>Larissa’s Void</span></p>
+  
+  <div class="portal-button" onclick="enterRoom('memory-island.html')">Memory Island</div>
+  <div class="portal-button" onclick="enterRoom('dream-forest.html')">Dream Forest</div>
+  <div class="portal-button" onclick="enterRoom('cosmic-stage.html')">Cosmic Stage</div>
 </div>
+
 <script src="js/portal.js"></script>
 </body>
 </html>
