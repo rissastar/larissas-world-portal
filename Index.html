@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Larissa's World 🌌</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="landing">
+    <h1>✨ Welcome to Larissa's World ✨</h1>
+    <button id="enterBtn">Enter My World</button>
+</div>
+
+<div id="world">
+    <div id="moodSelector">
+        <button class="mood-button" onclick="setMood('all')">All</button>
+        <button class="mood-button" onclick="setMood('dreamy')">Dreamy Realm</button>
+        <button class="mood-button" onclick="setMood('cozy')">Cozy Nook</button>
+        <button class="mood-button" onclick="setMood('wild')">Wild Realm</button>
+    </div>
+    <canvas id="moodCanvas"></canvas>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
