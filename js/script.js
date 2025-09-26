@@ -49,13 +49,14 @@ function openPage(page) {
   }
 }
 
-// Tunnel warp effect
+// Tunnel warp effect + cursor trails
 const canvas = document.getElementById("starCanvas");
 const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 let stars = [];
+let trails = [];
 const starCount = 400;
 let mouse = { x: null, y: null };
 let tunnelWarpActive = false;
@@ -71,6 +72,7 @@ for (let i = 0; i < starCount; i++) {
 
 function animateStars() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
   const centerX = canvas.width / 2;
   const centerY = canvas.height / 2;
 
@@ -105,6 +107,19 @@ function animateStars() {
     }
   }
 
+  // Draw cursor trails
+  for (let i = 0; i < trails.length; i++) {
+    let trail = trails[i];
+    ctx.beginPath();
+    ctx.arc(trail.x, trail.y, trail.radius, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255, 0, 255, ${trail.alpha})`;
+    ctx.fill();
+    trail.alpha -= 0.02;
+    trail.radius *= 0.96;
+    trail.y -= 0.5;
+    if (trail.alpha <= 0) trails.splice(i, 1);
+  }
+
   requestAnimationFrame(animateStars);
 }
 animateStars();
@@ -120,4 +135,17 @@ window.addEventListener("resize", () => {
 window.addEventListener("mousemove", (e) => {
   mouse.x = e.clientX;
   mouse.y = e.clientY;
+  trails.push({
+    x: e.clientX,
+    y: e.clientY,
+    radius: Math.random() * 5 + 2,
+    alpha: 0.6
+  });
+});
+
+// Easter egg: Press "L" key to unlock secret
+document.addEventListener("keydown", (e) => {
+  if (e.key === "L" || e.key === "l") {
+    openPage("secret");
+  }
 });
