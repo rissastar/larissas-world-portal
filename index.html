@@ -3,40 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Larissa’s Void</title>
+<title>Larissa’s Void Portal</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
-<!-- Portal Entrance Scene -->
 <div id="portalScene">
-  <h1 id="portalText">✨ Travel Through the Portal ✨</h1>
-  <p id="portalSubtext">to enter <span>Larissa’s Void</span></p>
-  <button id="enterButton" onclick="enterPortal()">ENTER</button>
+  <h1>✨ Travel Through the Portal ✨</h1>
+  <p>to enter <span>Larissa’s Void</span></p>
+  <button id="enterMemory" onclick="enterRoom('memory-island.html')">Enter Memory Island</button>
+  <button id="enterDream" onclick="enterRoom('dream-forest.html')">Enter Dream Forest</button>
+  <button id="enterStage" onclick="enterRoom('cosmic-stage.html')">Enter Cosmic Stage</button>
 </div>
-
-<!-- Map Scene -->
-<div id="mapScene" class="hidden">
-  <canvas id="mapCanvas"></canvas>
-  <h1 style="color:white;">Welcome to Larissa’s Void</h1>
-</div>
-
-<!-- Rooms -->
-<div id="memoryIsland" class="hidden room">
-  <h2>Memory Island</h2>
-  <p>Your life story, photos, art, and memories here.</p>
-</div>
-
-<div id="dreamForest" class="hidden room">
-  <h2>Dream Forest</h2>
-  <p>Poetry, hidden thoughts, surreal interactive magic.</p>
-</div>
-
-<div id="cosmicStage" class="hidden room">
-  <h2>The Cosmic Stage</h2>
-  <p>Your art, music, and creations shine here.</p>
-</div>
-
-<script src="js/script.js"></script>
+<script src="js/portal.js"></script>
 </body>
 </html>
