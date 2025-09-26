@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cosmic Stage - Larissa’s Void</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<canvas id="stageCanvas"></canvas>
+
+<div id="stageScene">
+  <h1>🌌 Cosmic Stage</h1>
+  <p>Welcome to the stage of Larissa’s dreams — where art meets the universe.</p>
+  <div class="stage-section" onclick="showStageContent('music')">🎵 Music</div>
+  <div class="stage-section" onclick="showStageContent('performances')">🎭 Performances</div>
+  <div class="stage-section" onclick="showStageContent('exclusive')">✨ Exclusive</div>
+
+  <div id="stageContent"></div>
+  <button onclick="goBack()">🔙 Back to Portal</button>
+</div>
+
+<script src="js/room.js"></script>
+<script>
+function showStageContent(type) {
+  const content = document.getElementById("stageContent");
+
+  if (type === "music") {
+    content.innerHTML = "<h3>Music</h3><p>Original songs, playlists, and vibes from Larissa’s world.</p>";
+  }
+
+  if (type === "performances") {
+    content.innerHTML = "<h3>Performances</h3><p>Exclusive shows and magical moments from my stage.</p>";
+  }
+
+  if (type === "exclusive") {
+    content.innerHTML = "<h3>Exclusive</h3><p>Special content for those who journey deeper into the Void.</p>";
+  }
+}
+
+function goBack() {
+  window.location.href = "index.html";
+}
+</script>
+</body>
+</html>
