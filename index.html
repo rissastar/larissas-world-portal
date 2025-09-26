@@ -1,49 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Larissa's World — Interactive Portal 🌌</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <link rel="stylesheet" href="css/style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Larissa’s World Portal</title>
+<link rel="stylesheet" href="css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div id="landing" class="landing">
-    <h1>✨ Welcome to Larissa's World ✨</h1>
-    <p class="subtitle">A private, magical universe — explore your moods.</p>
-    <button id="enterBtn" class="enterBtn">Enter My World</button>
-  </div>
-
-  <div id="world" class="world hidden" aria-hidden="true">
-    <div id="ui" class="ui">
-      <div id="moodSelector" class="moodSelector">
-        <button class="mood-button" data-mood="all">All</button>
-        <button class="mood-button" data-mood="dreamy">Dreamy</button>
-        <button class="mood-button" data-mood="cozy">Cozy</button>
-        <button class="mood-button" data-mood="wild">Wild</button>
-      </div>
-      <div class="hint">Tip: hover and move your cursor — particles will react. Click sparkles for secrets. Double click background for a hidden message.</div>
+<div class="portal">
+    <div class="header">
+        <h1>🌌 Larissa’s World Portal</h1>
+        <select id="moodSelector">
+            <option value="dreamy">Dreamy</option>
+            <option value="cosmic">Cosmic</option>
+            <option value="ocean">Ocean</option>
+            <option value="mystic">Mystic</option>
+        </select>
+        <button id="adminToggle">⚙️ Admin</button>
     </div>
-
-    <!-- layered backgrounds / effects -->
-    <div id="bgLayer" class="bgLayer"></div>
-    <canvas id="particleCanvas" class="particleCanvas"></canvas>
-    <div id="mistLayer" class="mistLayer" aria-hidden="true"></div>
-
-    <!-- drifting quote cards -->
-    <div id="cards" class="cards"></div>
-
-    <!-- custom cursor -->
-    <div id="cursorOrb" class="cursorOrb"></div>
-
-    <!-- modal for secrets -->
-    <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
-      <div class="modal-content">
-        <button id="modalClose" class="modal-close">✕</button>
-        <div id="modalText" class="modal-text"></div>
-      </div>
+    <div class="content">
+        <div class="quotes" id="quotes"></div>
+        <canvas id="canvas"></canvas>
     </div>
-  </div>
+</div>
 
-  <script src="js/script.js"></script>
+<div id="adminPanel" class="hidden">
+    <h2>Admin Panel</h2>
+    <textarea id="newQuote" placeholder="Add new quote"></textarea>
+    <button id="addQuoteBtn">Add Quote</button>
+    <button id="closeAdmin">Close</button>
+</div>
+
+<script src="js/script.js"></script>
 </body>
 </html>
