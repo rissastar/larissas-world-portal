@@ -1,67 +1,98 @@
-body {
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    background-color: #0a0a0a;
-    color: white;
-    overflow: hidden;
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
+  background: black;
+  color: white;
 }
 
-.portal {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-}
-
-.header {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-}
-
-#adminPanel {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: rgba(0,0,0,0.9);
-    padding: 15px;
-    border-radius: 8px;
-    display: none;
-    color: white;
-    z-index: 999;
-}
-
-#adminPanel textarea {
-    width: 200px;
-    height: 80px;
-    margin-bottom: 10px;
-}
-
-.hidden {
-    display: none;
+#portalScene {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
 }
 
 canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
-.quotes {
-    font-size: 1.2em;
-    margin-top: 30px;
-    max-width: 600px;
-    text-align: center;
+#portalGlow {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,0,255,0.5), transparent 70%);
+  animation: glowPulse 2s infinite alternate;
+  z-index: 1;
 }
 
-.secret-spot {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-    opacity: 0;
+#portalText {
+  font-size: 3em;
+  text-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff;
+  margin-top: 20px;
+  z-index: 2;
+}
+
+#portalSubtext {
+  font-size: 1.2em;
+  margin-bottom: 20px;
+  z-index: 2;
+}
+
+#portalSubtext span {
+  font-weight: bold;
+  color: #ff00ff;
+}
+
+#enterButton {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  padding: 20px 40px;
+  font-size: 1.2em;
+  color: white;
+  cursor: pointer;
+  border-radius: 15px;
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+#enterButton:hover {
+  background: rgba(255,255,255,0.4);
+  transform: scale(1.1);
+  box-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff;
+}
+
+.hidden {
+  display: none;
+}
+
+body.entered {
+  background: linear-gradient(120deg, #0f2027, #203a43, #2c5364);
+  animation: voidBG 30s ease infinite alternate;
+}
+
+nav {
+  margin: 20px;
+}
+
+button.nav {
+  margin: 10px;
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+
+@keyframes glowPulse {
+  from { transform: scale(1); box-shadow: 0 0 30px #ff00ff, 0 0 60px #00ffff; }
+  to { transform: scale(1.1); box-shadow: 0 0 50px #ff00ff, 0 0 100px #00ffff; }
+}
+
+@keyframes voidBG {
+  from {background-position: 0 0;}
+  to {background-position: 100% 100%;}
 }
