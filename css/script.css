@@ -1,0 +1,90 @@
+/* ---------- base ---------- */
+:root{
+  --bg-dark:#0b0b10;
+  --text:#fefefe;
+  --accent-dreamy:#9b7ed6;
+  --accent-cozy:#d2785a;
+  --accent-wild:#2ea36a;
+  --transition: 600ms cubic-bezier(.22,.9,.25,1);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;color:var(--text);background:var(--bg-dark);-webkit-font-smoothing:antialiased}
+.hidden{display:none}
+
+/* ---------- landing ---------- */
+.landing{
+  height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  background:linear-gradient(180deg,#2a1840 0%, #1b2b5a 100%);
+  gap:18px;padding:36px;
+}
+.landing h1{font-size:2.4rem;margin:0;letter-spacing:0.6px}
+.subtitle{opacity:0.9;margin:0;color:rgba(255,255,255,0.9)}
+.enterBtn{
+  background:linear-gradient(90deg,#ff7eb3,#ff758c);border:0;padding:12px 24px;border-radius:999px;color:white;font-weight:600;cursor:pointer;
+  box-shadow:0 10px 30px rgba(255,117,140,0.15);
+  transition:transform 220ms ease,box-shadow 220ms ease;
+}
+.enterBtn:hover{transform:translateY(-4px);box-shadow:0 18px 36px rgba(255,117,140,0.18)}
+
+/* ---------- world container ---------- */
+.world{position:fixed;inset:0;overflow:hidden}
+.ui{position:absolute;top:18px;left:50%;transform:translateX(-50%);z-index:40;pointer-events:auto;width:min(960px,94%);display:flex;flex-direction:column;align-items:center;gap:8px}
+.moodSelector{display:flex;gap:10px;background:rgba(0,0,0,0.25);padding:8px;border-radius:999px;backdrop-filter:blur(6px)}
+.mood-button{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.03);color:var(--text);padding:8px 14px;border-radius:999px;cursor:pointer;transition:all 220ms}
+.mood-button:hover{transform:translateY(-3px);box-shadow:0 8px 18px rgba(0,0,0,0.35)}
+
+/* tip */
+.hint{font-size:12px;color:rgba(255,255,255,0.6);margin-top:6px}
+
+/* ---------- layered backgrounds ---------- */
+.bgLayer{
+  position:absolute;inset:0;z-index:0;pointer-events:none;
+  transition:background var(--transition), filter var(--transition);
+  background: radial-gradient(circle at center, #0d0d0d, #0b0b10 70%);
+}
+
+/* soft mist overlay */
+.mistLayer{
+  position:absolute;inset:0;z-index:5;pointer-events:none;
+  background: radial-gradient(ellipse at 20% 20%, rgba(255,255,255,0.03), transparent 8%),
+              radial-gradient(ellipse at 80% 80%, rgba(255,255,255,0.02), transparent 12%);
+  mix-blend-mode:screen;opacity:0.9;transition:opacity var(--transition);
+}
+
+/* particle canvas sits above bg but under UI */
+.particleCanvas{position:absolute;inset:0;z-index:2;display:block}
+
+/* ---------- drifting quote cards ---------- */
+.cards{position:absolute;inset:0;z-index:10;pointer-events:none}
+.card{
+  position:absolute;min-width:230px;max-width:340px;padding:18px;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02));
+  border:1px solid rgba(255,255,255,0.06);backdrop-filter:blur(6px);color:var(--text);
+  pointer-events:auto;cursor:grab;user-select:none;transition:transform 300ms cubic-bezier(.2,.9,.25,1),box-shadow 200ms;
+  box-shadow:0 6px 26px rgba(0,0,0,0.45);
+}
+.card:active{cursor:grabbing}
+.card h3{margin:0;font-size:1.05rem}
+.card p{margin:8px 0 0;font-size:0.9rem;color:rgba(255,255,255,0.9)}
+.card .small{font-size:0.75rem;opacity:0.75;margin-top:8px}
+
+/* ---------- custom cursor orb ---------- */
+.cursorOrb{
+  position:fixed;width:18px;height:18px;border-radius:50%;pointer-events:none;z-index:60;
+  transform:translate(-50%,-50%);box-shadow:0 0 14px rgba(255,255,255,0.08),0 0 30px rgba(255,255,255,0.04);
+  transition:background 300ms, transform 120ms;
+  background:rgba(255,255,255,0.9);
+}
+
+/* ---------- modal ---------- */
+.modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:80;background:rgba(0,0,0,0.45)}
+.modal .modal-content{background:linear-gradient(180deg,#0f1020,#141423);padding:22px;border-radius:12px;min-width:320px;max-width:720px;border:1px solid rgba(255,255,255,0.04);box-shadow:0 30px 80px rgba(0,0,0,0.6)}
+.modal-close{position:absolute;right:14px;top:12px;border:0;background:none;color:var(--text);font-size:18px;cursor:pointer}
+.modal-text{font-size:1rem;color:var(--text)}
+
+/* ---------- responsive tweaks ---------- */
+@media (max-width:640px){
+  .card{min-width:200px;padding:14px}
+  .landing h1{font-size:1.8rem}
+  .enterBtn{padding:10px 18px}
+}
