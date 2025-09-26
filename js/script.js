@@ -3,8 +3,17 @@ function enterPortal() {
   const portalText = document.getElementById("portalText");
   const portalSubtext = document.getElementById("portalSubtext");
   const enterButton = document.getElementById("enterButton");
+  const ripple = document.getElementById("ripple");
 
-  // Start warp animation
+  // Ripple effect
+  ripple.style.width = "0px";
+  ripple.style.height = "0px";
+  ripple.style.opacity = "0.6";
+  ripple.style.left = `${enterButton.offsetLeft + enterButton.offsetWidth / 2}px`;
+  ripple.style.top = `${enterButton.offsetTop + enterButton.offsetHeight / 2}px`;
+  ripple.style.animation = "rippleEffect 2s ease forwards";
+
+  // Portal zoom animation
   portalGlow.classList.add("portal-zoom");
   portalText.style.transition = "opacity 1s ease";
   portalText.style.opacity = "0";
@@ -13,16 +22,14 @@ function enterPortal() {
   enterButton.style.transition = "opacity 1s ease";
   enterButton.style.opacity = "0";
 
-  // Begin tunnel warp effect
   startTunnelWarp();
 
-  // Wait animation before showing content
   setTimeout(() => {
     document.getElementById("portalScene").classList.add("hidden");
     document.getElementById("voidContent").classList.remove("hidden");
     document.body.classList.add("entered");
     stopTunnelWarp();
-  }, 2000); // match warpZoom animation duration
+  }, 2000);
 }
 
 function openPage(page) {
@@ -42,7 +49,7 @@ function openPage(page) {
   }
 }
 
-// Particle stars effect with cursor reaction
+// Tunnel warp effect
 const canvas = document.getElementById("starCanvas");
 const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
@@ -64,12 +71,11 @@ for (let i = 0; i < starCount; i++) {
 
 function animateStars() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
   const centerX = canvas.width / 2;
   const centerY = canvas.height / 2;
 
   for (let star of stars) {
-    star.z -= 2; // warp speed
+    star.z -= tunnelWarpActive ? 5 : 0.5;
     if (star.z <= 0) {
       star.x = Math.random() * canvas.width;
       star.y = Math.random() * canvas.height;
@@ -79,7 +85,6 @@ function animateStars() {
     let k = 128.0 / star.z;
     let px = (star.x - centerX) * k + centerX;
     let py = (star.y - centerY) * k + centerY;
-
     let radius = star.baseRadius * (1 - star.z / canvas.width);
 
     ctx.beginPath();
@@ -87,7 +92,6 @@ function animateStars() {
     ctx.fillStyle = "white";
     ctx.fill();
 
-    // Cursor interaction
     if (mouse.x && mouse.y) {
       let dx = px - mouse.x;
       let dy = py - mouse.y;
@@ -101,17 +105,12 @@ function animateStars() {
     }
   }
 
-  if (tunnelWarpActive) requestAnimationFrame(animateStars);
+  requestAnimationFrame(animateStars);
 }
 animateStars();
 
-function startTunnelWarp() {
-  tunnelWarpActive = true;
-}
-
-function stopTunnelWarp() {
-  tunnelWarpActive = false;
-}
+function startTunnelWarp() { tunnelWarpActive = true; }
+function stopTunnelWarp() { tunnelWarpActive = false; }
 
 window.addEventListener("resize", () => {
   canvas.width = window.innerWidth;
