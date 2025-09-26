@@ -15,7 +15,7 @@ body, html {
   align-items: center;
   height: 100vh;
   position: relative;
-  animation: bgGradient 20s ease infinite alternate;
+  animation: bgGradient 30s ease infinite alternate;
 }
 
 canvas {
@@ -106,7 +106,9 @@ button.nav {
 
 @keyframes bgGradient {
   0% { background: linear-gradient(45deg, #0f2027, #203a43, #2c5364); }
+  25% { background: linear-gradient(45deg, #1e3c72, #2a5298, #0f2027); }
   50% { background: linear-gradient(45deg, #2c5364, #203a43, #0f2027); }
+  75% { background: linear-gradient(45deg, #1e3c72, #0f2027, #2a5298); }
   100% { background: linear-gradient(45deg, #0f2027, #2c5364, #203a43); }
 }
 
