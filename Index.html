@@ -1,27 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Larissa's World 🌌</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <title>Larissa's World — Interactive Portal 🌌</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-<div id="landing">
+  <div id="landing" class="landing">
     <h1>✨ Welcome to Larissa's World ✨</h1>
-    <button id="enterBtn">Enter My World</button>
-</div>
+    <p class="subtitle">A private, magical universe — explore your moods.</p>
+    <button id="enterBtn" class="enterBtn">Enter My World</button>
+  </div>
 
-<div id="world">
-    <div id="moodSelector">
-        <button class="mood-button" onclick="setMood('all')">All</button>
-        <button class="mood-button" onclick="setMood('dreamy')">Dreamy Realm</button>
-        <button class="mood-button" onclick="setMood('cozy')">Cozy Nook</button>
-        <button class="mood-button" onclick="setMood('wild')">Wild Realm</button>
+  <div id="world" class="world hidden" aria-hidden="true">
+    <div id="ui" class="ui">
+      <div id="moodSelector" class="moodSelector">
+        <button class="mood-button" data-mood="all">All</button>
+        <button class="mood-button" data-mood="dreamy">Dreamy</button>
+        <button class="mood-button" data-mood="cozy">Cozy</button>
+        <button class="mood-button" data-mood="wild">Wild</button>
+      </div>
+      <div class="hint">Tip: hover and move your cursor — particles will react. Click sparkles for secrets. Double click background for a hidden message.</div>
     </div>
-    <canvas id="moodCanvas"></canvas>
-</div>
 
-<script src="script.js"></script>
+    <!-- layered backgrounds / effects -->
+    <div id="bgLayer" class="bgLayer"></div>
+    <canvas id="particleCanvas" class="particleCanvas"></canvas>
+    <div id="mistLayer" class="mistLayer" aria-hidden="true"></div>
+
+    <!-- drifting quote cards -->
+    <div id="cards" class="cards"></div>
+
+    <!-- custom cursor -->
+    <div id="cursorOrb" class="cursorOrb"></div>
+
+    <!-- modal for secrets -->
+    <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+      <div class="modal-content">
+        <button id="modalClose" class="modal-close">✕</button>
+        <div id="modalText" class="modal-text"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
