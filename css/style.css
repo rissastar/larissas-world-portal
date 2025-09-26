@@ -15,6 +15,7 @@ body, html {
   align-items: center;
   height: 100vh;
   position: relative;
+  animation: bgGradient 20s ease infinite alternate;
 }
 
 canvas {
@@ -24,10 +25,10 @@ canvas {
 }
 
 #portalGlow {
-  width: 300px;
-  height: 300px;
+  width: 350px;
+  height: 350px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,0,255,0.5), transparent 70%);
+  background: radial-gradient(circle, rgba(255,0,255,0.6), transparent 70%);
   animation: glowPulse 2s infinite alternate;
   z-index: 1;
 }
@@ -37,6 +38,7 @@ canvas {
   text-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff;
   margin-top: 20px;
   z-index: 2;
+  animation: shimmer 3s infinite alternate;
 }
 
 #portalSubtext {
@@ -73,8 +75,7 @@ canvas {
 }
 
 body.entered {
-  background: linear-gradient(120deg, #0f2027, #203a43, #2c5364);
-  animation: voidBG 30s ease infinite alternate;
+  animation: bgGradient 60s ease infinite alternate;
 }
 
 nav {
@@ -92,7 +93,13 @@ button.nav {
   to { transform: scale(1.1); box-shadow: 0 0 50px #ff00ff, 0 0 100px #00ffff; }
 }
 
-@keyframes voidBG {
-  from {background-position: 0 0;}
-  to {background-position: 100% 100%;}
+@keyframes bgGradient {
+  0% { background: linear-gradient(45deg, #0f2027, #203a43, #2c5364); }
+  50% { background: linear-gradient(45deg, #2c5364, #203a43, #0f2027); }
+  100% { background: linear-gradient(45deg, #0f2027, #2c5364, #203a43); }
+}
+
+@keyframes shimmer {
+  from { text-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff; }
+  to { text-shadow: 0 0 40px #ff00ff, 0 0 80px #00ffff; }
 }
