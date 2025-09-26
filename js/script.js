@@ -1,151 +1,51 @@
 function enterPortal() {
-  const portalGlow = document.getElementById("portalGlow");
-  const portalText = document.getElementById("portalText");
-  const portalSubtext = document.getElementById("portalSubtext");
-  const enterButton = document.getElementById("enterButton");
-  const ripple = document.getElementById("ripple");
-
-  // Ripple effect
-  ripple.style.width = "0px";
-  ripple.style.height = "0px";
-  ripple.style.opacity = "0.6";
-  ripple.style.left = `${enterButton.offsetLeft + enterButton.offsetWidth / 2}px`;
-  ripple.style.top = `${enterButton.offsetTop + enterButton.offsetHeight / 2}px`;
-  ripple.style.animation = "rippleEffect 2s ease forwards";
-
-  // Portal zoom animation
-  portalGlow.classList.add("portal-zoom");
-  portalText.style.transition = "opacity 1s ease";
-  portalText.style.opacity = "0";
-  portalSubtext.style.transition = "opacity 1s ease";
-  portalSubtext.style.opacity = "0";
-  enterButton.style.transition = "opacity 1s ease";
-  enterButton.style.opacity = "0";
-
-  startTunnelWarp();
-
-  setTimeout(() => {
-    document.getElementById("portalScene").classList.add("hidden");
-    document.getElementById("voidContent").classList.remove("hidden");
-    document.body.classList.add("entered");
-    stopTunnelWarp();
-  }, 2000);
+  document.getElementById("portalScene").classList.add("hidden");
+  document.getElementById("mapScene").classList.remove("hidden");
+  initMapScene();
 }
 
-function openPage(page) {
-  const content = document.getElementById("pageContent");
+function initMapScene() {
+  const mapCanvas = document.getElementById("mapCanvas");
+  const ctx = mapCanvas.getContext("2d");
+  mapCanvas.width = window.innerWidth;
+  mapCanvas.height = window.innerHeight;
 
-  if (page === "about") {
-    content.innerHTML = "<h2>About Larissa’s Void</h2><p>This is a magical, interactive experience where you explore hidden worlds without leaving your browser.</p>";
-  }
-  else if (page === "gallery") {
-    content.innerHTML = "<h2>Gallery</h2><p>Discover art and hidden surprises!</p>";
-  }
-  else if (page === "games") {
-    content.innerHTML = "<h2>Games</h2><p>Mini-games coming soon!</p>";
-  }
-  else if (page === "secret") {
-    content.innerHTML = "<h2>Secret Room</h2><p>🎇 You’ve unlocked a hidden layer of Larissa’s Void!</p>";
-  }
-}
+  const portals = [
+    {x: 300, y: 200, name: "Memory Island"},
+    {x: 700, y: 300, name: "Dream Forest"},
+    {x: 1100, y: 250, name: "Cosmic Stage"}
+  ];
 
-// Tunnel warp effect + cursor trails
-const canvas = document.getElementById("starCanvas");
-const ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+  function drawMap() {
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, mapCanvas.width, mapCanvas.height);
 
-let stars = [];
-let trails = [];
-const starCount = 400;
-let mouse = { x: null, y: null };
-let tunnelWarpActive = false;
+    for (let portal of portals) {
+      ctx.beginPath();
+      ctx.arc(portal.x, portal.y, 40, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(255, 0, 255, 0.7)";
+      ctx.fill();
+      ctx.strokeStyle = "white";
+      ctx.stroke();
+      ctx.fillStyle = "white";
+      ctx.font = "16px Poppins";
+      ctx.fillText(portal.name, portal.x - 40, portal.y + 60);
+    }
+    requestAnimationFrame(drawMap);
+  }
+  drawMap();
 
-for (let i = 0; i < starCount; i++) {
-  stars.push({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    z: Math.random() * canvas.width,
-    baseRadius: Math.random() * 1.5 + 0.5
+  mapCanvas.addEventListener("click", (e) => {
+    portals.forEach(portal => {
+      const dist = Math.hypot(e.clientX - portal.x, e.clientY - portal.y);
+      if (dist < 40) openRoom(portal.name);
+    });
   });
 }
 
-function animateStars() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  const centerX = canvas.width / 2;
-  const centerY = canvas.height / 2;
-
-  for (let star of stars) {
-    star.z -= tunnelWarpActive ? 5 : 0.5;
-    if (star.z <= 0) {
-      star.x = Math.random() * canvas.width;
-      star.y = Math.random() * canvas.height;
-      star.z = canvas.width;
-    }
-
-    let k = 128.0 / star.z;
-    let px = (star.x - centerX) * k + centerX;
-    let py = (star.y - centerY) * k + centerY;
-    let radius = star.baseRadius * (1 - star.z / canvas.width);
-
-    ctx.beginPath();
-    ctx.arc(px, py, radius, 0, Math.PI * 2);
-    ctx.fillStyle = "white";
-    ctx.fill();
-
-    if (mouse.x && mouse.y) {
-      let dx = px - mouse.x;
-      let dy = py - mouse.y;
-      let dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 100) {
-        ctx.fillStyle = "#ff00ff";
-        ctx.beginPath();
-        ctx.arc(px, py, radius * 2, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
-  }
-
-  // Draw cursor trails
-  for (let i = 0; i < trails.length; i++) {
-    let trail = trails[i];
-    ctx.beginPath();
-    ctx.arc(trail.x, trail.y, trail.radius, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(255, 0, 255, ${trail.alpha})`;
-    ctx.fill();
-    trail.alpha -= 0.02;
-    trail.radius *= 0.96;
-    trail.y -= 0.5;
-    if (trail.alpha <= 0) trails.splice(i, 1);
-  }
-
-  requestAnimationFrame(animateStars);
+function openRoom(name) {
+  document.querySelectorAll(".room").forEach(r => r.classList.add("hidden"));
+  if (name === "Memory Island") document.getElementById("memoryIsland").classList.remove("hidden");
+  if (name === "Dream Forest") document.getElementById("dreamForest").classList.remove("hidden");
+  if (name === "Cosmic Stage") document.getElementById("cosmicStage").classList.remove("hidden");
 }
-animateStars();
-
-function startTunnelWarp() { tunnelWarpActive = true; }
-function stopTunnelWarp() { tunnelWarpActive = false; }
-
-window.addEventListener("resize", () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-});
-
-window.addEventListener("mousemove", (e) => {
-  mouse.x = e.clientX;
-  mouse.y = e.clientY;
-  trails.push({
-    x: e.clientX,
-    y: e.clientY,
-    radius: Math.random() * 5 + 2,
-    alpha: 0.6
-  });
-});
-
-// Easter egg: Press "L" key to unlock secret
-document.addEventListener("keydown", (e) => {
-  if (e.key === "L" || e.key === "l") {
-    openPage("secret");
-  }
-});
