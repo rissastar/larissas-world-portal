@@ -1,7 +1,28 @@
 function enterPortal() {
-  document.getElementById("portalScene").classList.add("hidden");
-  document.getElementById("voidContent").classList.remove("hidden");
-  document.body.classList.add("entered");
+  const portalGlow = document.getElementById("portalGlow");
+  const portalText = document.getElementById("portalText");
+  const portalSubtext = document.getElementById("portalSubtext");
+  const enterButton = document.getElementById("enterButton");
+
+  // Start warp animation
+  portalGlow.classList.add("portal-zoom");
+  portalText.style.transition = "opacity 1s ease";
+  portalText.style.opacity = "0";
+  portalSubtext.style.transition = "opacity 1s ease";
+  portalSubtext.style.opacity = "0";
+  enterButton.style.transition = "opacity 1s ease";
+  enterButton.style.opacity = "0";
+
+  // Begin tunnel warp effect
+  startTunnelWarp();
+
+  // Wait animation before showing content
+  setTimeout(() => {
+    document.getElementById("portalScene").classList.add("hidden");
+    document.getElementById("voidContent").classList.remove("hidden");
+    document.body.classList.add("entered");
+    stopTunnelWarp();
+  }, 2000); // match warpZoom animation duration
 }
 
 function openPage(page) {
@@ -21,37 +42,83 @@ function openPage(page) {
   }
 }
 
-// Particle stars effect
+// Particle stars effect with cursor reaction
 const canvas = document.getElementById("starCanvas");
 const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 let stars = [];
-for (let i = 0; i < 200; i++) {
+const starCount = 400;
+let mouse = { x: null, y: null };
+let tunnelWarpActive = false;
+
+for (let i = 0; i < starCount; i++) {
   stars.push({
     x: Math.random() * canvas.width,
     y: Math.random() * canvas.height,
-    radius: Math.random() * 1.5,
-    speed: Math.random() * 0.5
+    z: Math.random() * canvas.width,
+    baseRadius: Math.random() * 1.5 + 0.5
   });
 }
 
 function animateStars() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  const centerX = canvas.width / 2;
+  const centerY = canvas.height / 2;
+
   for (let star of stars) {
+    star.z -= 2; // warp speed
+    if (star.z <= 0) {
+      star.x = Math.random() * canvas.width;
+      star.y = Math.random() * canvas.height;
+      star.z = canvas.width;
+    }
+
+    let k = 128.0 / star.z;
+    let px = (star.x - centerX) * k + centerX;
+    let py = (star.y - centerY) * k + centerY;
+
+    let radius = star.baseRadius * (1 - star.z / canvas.width);
+
     ctx.beginPath();
-    ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+    ctx.arc(px, py, radius, 0, Math.PI * 2);
     ctx.fillStyle = "white";
     ctx.fill();
-    star.y -= star.speed;
-    if (star.y < 0) star.y = canvas.height;
+
+    // Cursor interaction
+    if (mouse.x && mouse.y) {
+      let dx = px - mouse.x;
+      let dy = py - mouse.y;
+      let dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 100) {
+        ctx.fillStyle = "#ff00ff";
+        ctx.beginPath();
+        ctx.arc(px, py, radius * 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
   }
-  requestAnimationFrame(animateStars);
+
+  if (tunnelWarpActive) requestAnimationFrame(animateStars);
 }
 animateStars();
+
+function startTunnelWarp() {
+  tunnelWarpActive = true;
+}
+
+function stopTunnelWarp() {
+  tunnelWarpActive = false;
+}
 
 window.addEventListener("resize", () => {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
+});
+
+window.addEventListener("mousemove", (e) => {
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
 });
