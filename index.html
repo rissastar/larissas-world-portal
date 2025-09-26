@@ -3,35 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Larissa’s World Portal</title>
-<link rel="stylesheet" href="css/style.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<title>Larissa’s Void</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="portal">
-    <div class="header">
-        <h1>🌌 Larissa’s World Portal</h1>
-        <select id="moodSelector">
-            <option value="dreamy">Dreamy</option>
-            <option value="cosmic">Cosmic</option>
-            <option value="ocean">Ocean</option>
-            <option value="mystic">Mystic</option>
-        </select>
-        <button id="adminToggle">⚙️ Admin</button>
-    </div>
-    <div class="content">
-        <div class="quotes" id="quotes"></div>
-        <canvas id="canvas"></canvas>
-    </div>
+
+<div id="portalScene">
+  <canvas id="starCanvas"></canvas>
+  <div id="portalGlow"></div>
+  <h1 id="portalText">✨ Travel Through the Portal ✨</h1>
+  <p id="portalSubtext">to enter <span>Larissa’s Void</span></p>
+  <button id="enterButton" onclick="enterPortal()">ENTER</button>
 </div>
 
-<div id="adminPanel" class="hidden">
-    <h2>Admin Panel</h2>
-    <textarea id="newQuote" placeholder="Add new quote"></textarea>
-    <button id="addQuoteBtn">Add Quote</button>
-    <button id="closeAdmin">Close</button>
+<div id="voidContent" class="hidden">
+  <header>
+    <h1>🌌 Welcome to Larissa’s Void</h1>
+  </header>
+  <nav>
+    <button onclick="openPage('about')">About</button>
+    <button onclick="openPage('gallery')">Gallery</button>
+    <button onclick="openPage('games')">Games</button>
+    <button onclick="openPage('secret')">Secret Room</button>
+  </nav>
+  <main id="pageContent"></main>
 </div>
 
-<script src="js/script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
