@@ -1,23 +1,175 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Larissa’s Void Portal</title>
-<link rel="stylesheet" href="css/style.css">
+<title>The Infinite Self v4.0</title>
+<style>
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    font-family: sans-serif;
+    color: white;
+}
+canvas { display: block; position: fixed; top: 0; left: 0; }
+#overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+#phrase { position: absolute; top: 40%; width: 100%; text-align: center; font-size: 2em; pointer-events: none; }
+#inputBox { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); }
+input { padding: 8px; border-radius: 5px; border: none; font-size: 1em; }
+#history { position: fixed; top: 10px; right: 10px; background: rgba(0,0,0,0.4); padding: 10px; border-radius: 8px; max-width: 300px; font-size: 0.9em; overflow-y: auto; max-height: 80vh; }
+</style>
 </head>
 <body>
-<canvas id="portalCanvas"></canvas>
+<canvas id="bgCanvas"></canvas>
+<div id="overlay"><div id="phrase">Welcome to The Infinite Self v4.0</div></div>
+<div id="inputBox"><input type="text" id="wordInput" placeholder="Add a word to your self..."></div>
+<div id="history"><strong>Global Self History:</strong><ul id="wordList"></ul></div>
 
-<div id="portalScene">
-  <h1 id="portalTitle">✨ Travel Through the Portal ✨</h1>
-  <p id="portalSubtitle">to enter <span>Larissa’s Void</span></p>
-  
-  <div class="portal-button" onclick="startPortalAnimation('memory-island.html')">Memory Island</div>
-  <div class="portal-button" onclick="startPortalAnimation('dream-forest.html')">Dream Forest</div>
-  <div class="portal-button" onclick="startPortalAnimation('cosmic-stage.html')">Cosmic Stage</div>
-</div>
+<script>
+const REPO = "YOUR_USERNAME/YOUR_REPO"; // Change to your repo
+const FILE_PATH = "self-data.json";
+const TOKEN = "YOUR_GITHUB_TOKEN"; // GitHub token here (secure if private repo)
 
-<script src="js/portal.js"></script>
+let globalData = { clicks: 0, phrases: [], floatingWords: [] };
+let phraseElement = document.getElementById("phrase");
+let wordList = document.getElementById("wordList");
+
+let canvas = document.getElementById("bgCanvas");
+let ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let shapes = [];
+let floatingWords = [];
+
+async function loadGlobalData() {
+    const response = await fetch(`https://raw.githubusercontent.com/${REPO}/main/${FILE_PATH}`);
+    globalData = await response.json();
+    phrases = globalData.phrases.length ? globalData.phrases : ["You are infinite", "We evolve together"];
+    floatingWords = globalData.floatingWords || [];
+    updateWordList();
+}
+
+function updateWordList() {
+    wordList.innerHTML = "";
+    phrases.forEach(word => {
+        let li = document.createElement("li");
+        li.textContent = word;
+        wordList.appendChild(li);
+    });
+}
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    shapes.forEach(s => {
+        s.hueShift += 0.1;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.size + Math.sin(s.hueShift)*5, 0, Math.PI * 2);
+        ctx.fillStyle = `hsl(${(parseInt(s.color.match(/\d+/)[0]) + s.hueShift) % 360}, 70%, 60%)`;
+        ctx.fill();
+        s.x += s.speedX;
+        s.y += s.speedY;
+        if (s.x < 0 || s.x > canvas.width) s.speedX *= -1;
+        if (s.y < 0 || s.y > canvas.height) s.speedY *= -1;
+    });
+    floatingWords.forEach((wordObj, i) => {
+        ctx.font = "20px sans-serif";
+        ctx.fillStyle = `hsla(${wordObj.hue}, 100%, 80%, ${wordObj.opacity})`;
+        ctx.fillText(wordObj.word, wordObj.x, wordObj.y);
+        wordObj.y -= 0.5;
+        wordObj.opacity -= 0.002;
+        if (wordObj.opacity <= 0) floatingWords.splice(i, 1);
+    });
+    requestAnimationFrame(draw);
+}
+
+function evolve() {
+    globalData.clicks++;
+    phraseElement.textContent = phrases[Math.floor(Math.random() * phrases.length)] + " — Clicks: " + globalData.clicks;
+
+    let hue1 = Math.floor(Math.random() * 360);
+    let hue2 = Math.floor(Math.random() * 360);
+    document.body.style.background = `linear-gradient(${hue1}deg, hsl(${hue1}, 70%, 60%), hsl(${hue2}, 70%, 60%))`;
+
+    shapes.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 50 + 10,
+        color: `hsl(${Math.random() * 360}, 70%, 60%)`,
+        speedX: (Math.random() - 0.5) * 2,
+        speedY: (Math.random() - 0.5) * 2,
+        hueShift: Math.random()
+    });
+
+    saveGlobalData();
+}
+
+document.body.addEventListener("click", evolve);
+
+document.getElementById("wordInput").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+        let newWord = e.target.value.trim();
+        if (newWord) {
+            phrases.push(newWord);
+            floatingWords.push({word: newWord, x: Math.random()*canvas.width, y: Math.random()*canvas.height, opacity: 1, hue: Math.random()*360});
+            updateWordList();
+            saveGlobalData();
+            e.target.value = "";
+        }
+    }
+});
+
+function saveGlobalData() {
+    const updatedData = {
+        clicks: globalData.clicks,
+        phrases: phrases,
+        floatingWords: floatingWords
+    };
+    fetch(`https://api.github.com/repos/${REPO}/contents/${FILE_PATH}`, {
+        method: "GET",
+        headers: { Authorization: "token " + TOKEN }
+    })
+    .then(res => res.json())
+    .then(data => {
+        return fetch(`https://api.github.com/repos/${REPO}/contents/${FILE_PATH}`, {
+            method: "PUT",
+            headers: {
+                Authorization: "token " + TOKEN,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                message: "Update self data",
+                content: btoa(JSON.stringify(updatedData)),
+                sha: data.sha
+            })
+        });
+    });
+}
+
+loadGlobalData();
+draw();
+
+// — Ambient generative sound layer —
+let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+let oscillator = audioCtx.createOscillator();
+let gainNode = audioCtx.createGain();
+
+oscillator.type = "sine";
+oscillator.frequency.setValueAtTime(220, audioCtx.currentTime);
+oscillator.connect(gainNode);
+gainNode.connect(audioCtx.destination);
+gainNode.gain.value = 0.02;
+oscillator.start();
+
+function modulateSound() {
+    let now = audioCtx.currentTime;
+    oscillator.frequency.setValueAtTime(220 + Math.sin(now) * 50, now);
+    gainNode.gain.setValueAtTime(0.02 + Math.sin(now * 0.5) * 0.01, now);
+    requestAnimationFrame(modulateSound);
+}
+
+modulateSound();
+</script>
 </body>
 </html>
